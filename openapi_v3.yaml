@@ -1,0 +1,846 @@
+openapi: 3.0.1
+info:
+  contact: {}
+  description: Api Documentation
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0
+  termsOfService: urn:tos
+  title: Api Documentation
+  version: '1.0'
+servers:
+  - url: //localhost:8080/
+tags:
+  - description: Auth Controller
+    name: Авторизация
+  - description: Ads Controller
+    name: Объявления
+  - description: User Controller
+    name: Пользователи
+paths:
+  /ads:
+    get:
+      operationId: getALLAdsUsingGET
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseWrapper«Ads»'
+          description: OK
+        '401':
+          content: {}
+          description: Unauthorized
+        '403':
+          content: {}
+          description: Forbidden
+        '404':
+          content: {}
+          description: Not Found
+      summary: getALLAds
+      tags:
+        - Объявления
+      x-accepts: '*/*'
+    post:
+      description: Добавить объявления
+      operationId: addAdsUsingPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+                - image
+                - properties
+              type: object
+              properties:
+                properties:
+                  $ref: '#/components/schemas/CreateAds'
+                image:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Ads'
+          description: OK
+        '201':
+          content: {}
+          description: Created
+        '401':
+          content: {}
+          description: Unauthorized
+        '403':
+          content: {}
+          description: Forbidden
+        '404':
+          content: {}
+          description: Not Found
+      summary: addAds
+      tags:
+        - Объявления
+      x-codegen-request-body-name: createAds
+      x-contentType: application/json
+      x-accepts: '*/*'
+  /ads/me:
+    get:
+      operationId: getAdsMeUsingGET
+      parameters:
+        - in: query
+          name: authenticated
+          schema:
+            type: boolean
+        - in: query
+          name: authorities[0].authority
+          schema:
+            type: string
+        - in: query
+          name: credentials
+          schema:
+            type: object
+        - in: query
+          name: details
+          schema:
+            type: object
+        - in: query
+          name: principal
+          schema:
+            type: object
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseWrapper«Ads»'
+          description: OK
+        '401':
+          content: {}
+          description: Unauthorized
+        '403':
+          content: {}
+          description: Forbidden
+        '404':
+          content: {}
+          description: Not Found
+      summary: getAdsMe
+      tags:
+        - Объявления
+      x-accepts: '*/*'
+  /ads/{ad_pk}/comment:
+    get:
+      operationId: getAdsCommentsUsingGET
+      parameters:
+        - description: ad_pk
+          in: path
+          name: ad_pk
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseWrapper«AdsComment»'
+          description: OK
+        '401':
+          content: {}
+          description: Unauthorized
+        '403':
+          content: {}
+          description: Forbidden
+        '404':
+          content: {}
+          description: Not Found
+      summary: getAdsComments
+      tags:
+        - Объявления
+      x-accepts: '*/*'
+    post:
+      operationId: addAdsCommentsUsingPOST
+      parameters:
+        - description: ad_pk
+          in: path
+          name: ad_pk
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdsComment'
+        description: comment
+        required: true
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AdsComment'
+          description: OK
+        '201':
+          content: {}
+          description: Created
+        '401':
+          content: {}
+          description: Unauthorized
+        '403':
+          content: {}
+          description: Forbidden
+        '404':
+          content: {}
+          description: Not Found
+      summary: addAdsComments
+      tags:
+        - Объявления
+      x-codegen-request-body-name: comment
+      x-contentType: application/json
+      x-accepts: '*/*'
+  /ads/{ad_pk}/comment/{id}:
+    delete:
+      operationId: deleteAdsCommentUsingDELETE
+      parameters:
+        - description: ad_pk
+          in: path
+          name: ad_pk
+          required: true
+          schema:
+            type: string
+        - description: id
+          in: path
+          name: id
+          required: true
+          schema:
+            format: int32
+            type: integer
+      responses:
+        '204':
+          content: {}
+          description: No Content
+        '401':
+          content: {}
+          description: Unauthorized
+        '403':
+          content: {}
+          description: Forbidden
+      summary: deleteAdsComment
+      tags:
+        - Объявления
+      x-accepts: application/json
+    get:
+      operationId: getAdsCommentUsingGET
+      parameters:
+        - description: ad_pk
+          in: path
+          name: ad_pk
+          required: true
+          schema:
+            type: string
+        - description: id
+          in: path
+          name: id
+          required: true
+          schema:
+            format: int32
+            type: integer
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AdsComment'
+          description: OK
+        '401':
+          content: {}
+          description: Unauthorized
+        '403':
+          content: {}
+          description: Forbidden
+        '404':
+          content: {}
+          description: Not Found
+      summary: getAdsComment
+      tags:
+        - Объявления
+      x-accepts: '*/*'
+    patch:
+      operationId: updateAdsCommentUsingPATCH
+      parameters:
+        - description: ad_pk
+          in: path
+          name: ad_pk
+          required: true
+          schema:
+            type: string
+        - description: id
+          in: path
+          name: id
+          required: true
+          schema:
+            format: int32
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdsComment'
+        description: comment
+        required: true
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AdsComment'
+          description: OK
+        '204':
+          content: {}
+          description: No Content
+        '401':
+          content: {}
+          description: Unauthorized
+        '403':
+          content: {}
+          description: Forbidden
+      summary: updateAdsComment
+      tags:
+        - Объявления
+      x-codegen-request-body-name: comment
+      x-contentType: application/json
+      x-accepts: '*/*'
+  /ads/{id}:
+    delete:
+      operationId: removeAdsUsingDELETE
+      parameters:
+        - description: id
+          in: path
+          name: id
+          required: true
+          schema:
+            format: int32
+            type: integer
+      responses:
+        '204':
+          content: {}
+          description: No Content
+        '401':
+          content: {}
+          description: Unauthorized
+        '403':
+          content: {}
+          description: Forbidden
+      summary: removeAds
+      tags:
+        - Объявления
+      x-accepts: application/json
+    get:
+      operationId: getAdsUsingGET
+      parameters:
+        - description: id
+          in: path
+          name: id
+          required: true
+          schema:
+            format: int32
+            type: integer
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/FullAds'
+          description: OK
+        '401':
+          content: {}
+          description: Unauthorized
+        '403':
+          content: {}
+          description: Forbidden
+        '404':
+          content: {}
+          description: Not Found
+      summary: getAds
+      tags:
+        - Объявления
+      x-accepts: '*/*'
+    patch:
+      operationId: updateAdsUsingPATCH
+      parameters:
+        - description: id
+          in: path
+          name: id
+          required: true
+          schema:
+            format: int32
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Ads'
+        description: ads
+        required: true
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Ads'
+          description: OK
+        '204':
+          content: {}
+          description: No Content
+        '401':
+          content: {}
+          description: Unauthorized
+        '403':
+          content: {}
+          description: Forbidden
+      summary: updateAds
+      tags:
+        - Объявления
+      x-codegen-request-body-name: ads
+      x-contentType: application/json
+      x-accepts: '*/*'
+  /login:
+    post:
+      operationId: loginUsingPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginReq'
+        description: req
+        required: true
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                type: object
+          description: OK
+        '201':
+          content: {}
+          description: Created
+        '401':
+          content: {}
+          description: Unauthorized
+        '403':
+          content: {}
+          description: Forbidden
+        '404':
+          content: {}
+          description: Not Found
+      summary: login
+      tags:
+        - Авторизация
+      x-codegen-request-body-name: req
+      x-contentType: application/json
+      x-accepts: '*/*'
+  /register:
+    post:
+      operationId: registerUsingPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegReq'
+        description: req
+        required: true
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                type: object
+          description: OK
+        '201':
+          content: {}
+          description: Created
+        '401':
+          content: {}
+          description: Unauthorized
+        '403':
+          content: {}
+          description: Forbidden
+        '404':
+          content: {}
+          description: Not Found
+      summary: register
+      tags:
+        - Авторизация
+      x-codegen-request-body-name: req
+      x-contentType: application/json
+      x-accepts: '*/*'
+  /users/me:
+    get:
+      operationId: getUsersUsingGET
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseWrapper«User»'
+          description: OK
+        '401':
+          content: {}
+          description: Unauthorized
+        '403':
+          content: {}
+          description: Forbidden
+        '404':
+          content: {}
+          description: Not Found
+      summary: getUsers
+      tags:
+        - Пользователи
+      x-accepts: '*/*'
+    patch:
+      operationId: updateUserUsingPATCH
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        description: user
+        required: true
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/User'
+          description: OK
+        '204':
+          content: {}
+          description: No Content
+        '401':
+          content: {}
+          description: Unauthorized
+        '403':
+          content: {}
+          description: Forbidden
+      summary: updateUser
+      tags:
+        - Пользователи
+      x-codegen-request-body-name: user
+      x-contentType: application/json
+      x-accepts: '*/*'
+  /users/set_password:
+    post:
+      operationId: setPasswordUsingPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewPassword'
+        description: newPassword
+        required: true
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/NewPassword'
+          description: OK
+        '201':
+          content: {}
+          description: Created
+        '401':
+          content: {}
+          description: Unauthorized
+        '403':
+          content: {}
+          description: Forbidden
+        '404':
+          content: {}
+          description: Not Found
+      summary: setPassword
+      tags:
+        - Пользователи
+      x-codegen-request-body-name: newPassword
+      x-contentType: application/json
+      x-accepts: '*/*'
+  /users/{id}:
+    get:
+      operationId: getUserUsingGET
+      parameters:
+        - description: id
+          in: path
+          name: id
+          required: true
+          schema:
+            format: int32
+            type: integer
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/User'
+          description: OK
+        '401':
+          content: {}
+          description: Unauthorized
+        '403':
+          content: {}
+          description: Forbidden
+        '404':
+          content: {}
+          description: Not Found
+      summary: getUser
+      tags:
+        - Пользователи
+      x-accepts: '*/*'
+components:
+  schemas:
+    Ads:
+      example:
+        image: image
+        author: 6
+        price: 5
+        pk: 1
+        title: title
+      properties:
+        author:
+          format: int32
+          type: integer
+        image:
+          type: string
+        pk:
+          format: int32
+          type: integer
+        price:
+          format: int32
+          type: integer
+        title:
+          type: string
+      title: Ads
+      type: object
+    AdsComment:
+      example:
+        createdAt: 2000-01-23T04:56:07.000Z
+        author: 6
+        pk: 1
+        text: text
+      properties:
+        author:
+          format: int32
+          type: integer
+        createdAt:
+          format: date-time
+          type: string
+        pk:
+          format: int32
+          type: integer
+        text:
+          type: string
+      title: AdsComment
+      type: object
+    CreateAds:
+      required:
+        - description
+        - title
+      type: object
+      properties:
+        description:
+          type: string
+        price:
+          type: integer
+          format: int32
+        title:
+          maxLength: 2147483647
+          minLength: 3
+          type: string
+      example:
+        price: 6
+        description: description
+        title: title
+      title: CreateAds
+    CreateUser:
+      example:
+        firstName: firstName
+        lastName: lastName
+        password: password
+        phone: phone
+        email: email
+      properties:
+        email:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        password:
+          type: string
+        phone:
+          type: string
+      title: CreateUser
+      type: object
+    FullAds:
+      example:
+        image: image
+        authorLastName: authorLastName
+        authorFirstName: authorFirstName
+        phone: phone
+        price: 6
+        description: description
+        pk: 0
+        title: title
+        email: email
+      properties:
+        authorFirstName:
+          type: string
+        authorLastName:
+          type: string
+        description:
+          type: string
+        email:
+          type: string
+        image:
+          type: string
+        phone:
+          type: string
+        pk:
+          format: int32
+          type: integer
+        price:
+          format: int32
+          type: integer
+        title:
+          type: string
+      title: FullAds
+      type: object
+    LoginReq:
+      example:
+        password: password
+        username: username
+      properties:
+        password:
+          type: string
+        username:
+          type: string
+      title: LoginReq
+      type: object
+    NewPassword:
+      example:
+        newPassword: newPassword
+        currentPassword: currentPassword
+      properties:
+        currentPassword:
+          type: string
+        newPassword:
+          type: string
+      title: NewPassword
+      type: object
+    RegReq:
+      example:
+        password: password
+        role: ADMIN
+        username: username
+      properties:
+        password:
+          type: string
+        role:
+          enum:
+            - ADMIN
+            - USER
+          type: string
+        username:
+          type: string
+      title: RegReq
+      type: object
+    ResponseWrapper«AdsComment»:
+      example:
+        count: 0
+        results:
+          - createdAt: 2000-01-23T04:56:07.000Z
+            author: 6
+            pk: 1
+            text: text
+          - createdAt: 2000-01-23T04:56:07.000Z
+            author: 6
+            pk: 1
+            text: text
+      properties:
+        count:
+          format: int32
+          type: integer
+        results:
+          items:
+            $ref: '#/components/schemas/AdsComment'
+          type: array
+      title: ResponseWrapper«AdsComment»
+      type: object
+    ResponseWrapper«Ads»:
+      example:
+        count: 0
+        results:
+          - image: image
+            author: 6
+            price: 5
+            pk: 1
+            title: title
+          - image: image
+            author: 6
+            price: 5
+            pk: 1
+            title: title
+      properties:
+        count:
+          format: int32
+          type: integer
+        results:
+          items:
+            $ref: '#/components/schemas/Ads'
+          type: array
+      title: ResponseWrapper«Ads»
+      type: object
+    ResponseWrapper«User»:
+      example:
+        count: 0
+        results:
+          - firstName: firstName
+            lastName: lastName
+            phone: phone
+            id: 6
+            email: email
+          - firstName: firstName
+            lastName: lastName
+            phone: phone
+            id: 6
+            email: email
+      properties:
+        count:
+          format: int32
+          type: integer
+        results:
+          items:
+            $ref: '#/components/schemas/User'
+          type: array
+      title: ResponseWrapper«User»
+      type: object
+    User:
+      example:
+        firstName: firstName
+        lastName: lastName
+        phone: phone
+        id: 6
+        email: email
+      properties:
+        email:
+          type: string
+        firstName:
+          type: string
+        id:
+          format: int32
+          type: integer
+        lastName:
+          type: string
+        phone:
+          type: string
+      title: User
+      type: object
+x-original-swagger-version: '2.0'
