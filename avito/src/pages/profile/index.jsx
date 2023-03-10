@@ -5,7 +5,7 @@ import Adv from "../../components/adv";
 import * as S from "./styles";
 import mockAvatar from "../../assets/static/mockAvatarMen.jpg";
 
-function Profile() {
+function Profile({user}) {
   const isMyProfile = false;
 
   return (
@@ -13,7 +13,7 @@ function Profile() {
       <StyledContainer>
         {isMyProfile ? (
           <>
-            <h1>Здравсвуйте, Илья!</h1>
+            <h1>Здравсвуйте, {user.name}!</h1>
             <h2>Настройки профиля</h2>
             <ProfileDataForm />
             <h2>Мои товары</h2>
@@ -29,12 +29,12 @@ function Profile() {
                 <img src={mockAvatar} alt="seller avatar" width={170} />
               </div>
               <div>
-                <p>Илья Котейкин</p>
-                <p>Санкт-Петербург</p>
-                <p>Продает товары с октября 2003</p>
+                <p>{user.name}</p>
+                <p>{user.city}</p>
+                <p>{user.sells_from}</p>
                 <S.PhoneButton>
                   Показать телефон
-                  <span>8 905 ХХХ ХХ ХХ</span>
+                  <span>{user.phone}</span>
                 </S.PhoneButton>
               </div>
             </S.SellerInfoBlock>

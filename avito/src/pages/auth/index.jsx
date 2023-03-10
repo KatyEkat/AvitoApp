@@ -1,13 +1,11 @@
-import React from 'react';
-// import { useLocation } from 'react-router-dom';
-import LogoAuth from '../../assets/static/logo_auth.svg';
-// import { SIGNUP_ROUTE } from '../../utils/consts';
-import * as S from './styles';
-import MainButton from '../../components/main-button';
-import { isAuthTokenExists } from '../../utils/fetch';
+import React from "react";
+import LogoAuth from "../../assets/static/logo_auth.svg";
+import * as S from "./styles";
+import MainButton from "../../components/main-button/index";
+import { isAuthTokenExists } from "../../utils/fetch";
+import { SIGNUP_ROUTE } from "../../utils/consts";
 
 function Auth() {
-
   const isSignUp = isAuthTokenExists();
 
   return (
@@ -35,7 +33,9 @@ function Auth() {
           ) : (
             <>
               <MainButton type="submit">Войти</MainButton>
-              <S.SignUpLink to="/signup">Зарегистрироваться</S.SignUpLink>
+              <S.SignUpLink to={`${SIGNUP_ROUTE}`}>
+                Зарегистрироваться
+              </S.SignUpLink>
             </>
           )}
         </S.AuthForm>

@@ -7,7 +7,7 @@ import MainButton from "../../components/main-button";
 import EditAdvForm from "../../components/edit-adv-form";
 import { get } from "../../utils/fetch";
 import { useParams } from "react-router-dom";
-import { API_URL } from "../../utils/consts";
+import { API_URL, SIGNUP_ROUTE } from "../../utils/consts";
 
 function AdvPage() {
   const isUserAdv = true;
@@ -75,7 +75,7 @@ function AdvPage() {
             <S.SellerInfo>
               <S.SellerAvatar src={testImg} alt="seller avatar" />
               <div>
-                <S.SellerName to="/profile/1">{adv?.user?.name}</S.SellerName>
+                <S.SellerName to={`${SIGNUP_ROUTE}`}>{adv?.user?.name}</S.SellerName>
                 <S.SellerActivity>
                   Продает товары с октября 2003
                 </S.SellerActivity>
