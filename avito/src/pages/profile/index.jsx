@@ -17,9 +17,9 @@ function Profile() {
             <h2>Настройки профиля</h2>
             <ProfileDataForm />
             <h2>Мои товары</h2>
-            <S.AdvList>
+            {/* <S.AdvList>
               <Adv />
-            </S.AdvList>
+            </S.AdvList> */}
           </>
         ) : (
           <>
@@ -39,9 +39,9 @@ function Profile() {
               </div>
             </S.SellerInfoBlock>
             <h2>Товары продавца</h2>
-            <S.AdvList>
+            {/* <S.AdvList>
               <Adv />
-            </S.AdvList>
+            </S.AdvList> */}
           </>
         )}
       </StyledContainer>

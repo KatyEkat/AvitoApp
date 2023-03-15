@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import * as S from './styles';
-import HeaderButton from './header-button';
-import { StyledContainer, Overlay } from '../../global-styles';
-import CreateAdvForm from '../create-adv-form';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import * as S from "./styles";
+import HeaderButton from "./header-button";
+import { StyledContainer, Overlay } from "../../global-styles";
+import CreateAdvForm from "../create-adv-form";
 // import Auth from '../../pages/auth/index';
 
 function Header({ isAuth }) {
@@ -13,10 +13,6 @@ function Header({ isAuth }) {
       <StyledContainer>
         <S.HeaderInner>
           {isAuth ? (
-            <Link to="/profile/1">
-              <HeaderButton>Вход в личный кабинет</HeaderButton>
-            </Link>
-          ) : (
             <S.HeaderAuthButtons>
               <HeaderButton onClick={() => setVisibleAddAdv(true)}>
                 Разместить объявление
@@ -25,6 +21,10 @@ function Header({ isAuth }) {
                 <HeaderButton>Личиный кабинет</HeaderButton>
               </Link>
             </S.HeaderAuthButtons>
+          ) : (
+            <Link to="/profile/1">
+              <HeaderButton>Вход в личный кабинет</HeaderButton>
+            </Link>
           )}
         </S.HeaderInner>
       </StyledContainer>

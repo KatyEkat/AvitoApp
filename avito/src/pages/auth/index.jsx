@@ -1,14 +1,14 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+// import { useLocation } from 'react-router-dom';
 import LogoAuth from '../../assets/static/logo_auth.svg';
-import { SIGNUP_ROUTE } from '../../utils/consts';
+// import { SIGNUP_ROUTE } from '../../utils/consts';
 import * as S from './styles';
 import MainButton from '../../components/main-button';
+import { isAuthTokenExists } from '../../utils/fetch';
 
 function Auth() {
-  const { pathname } = useLocation();
 
-  const isSignUp = pathname === SIGNUP_ROUTE;
+  const isSignUp = isAuthTokenExists();
 
   return (
     <S.Auth>
