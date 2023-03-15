@@ -1,17 +1,16 @@
-import React, { useState, useRef, useEffect } from 'react';
-import * as S from './styles';
-import CloseFormButton from '../close-form-button';
-import plug from '../../assets/static/add_adv_photo_plug.jpg';
-import MainButton from '../main-button';
+import React, { useState, useRef, useEffect } from "react";
+import * as S from "./styles";
+import CloseFormButton from "../close-form-button";
+import plug from "../../assets/static/add_adv_photo_plug.jpg";
+import MainButton from "../main-button";
 // import { patch } from '../../utils/fetch';
 // import { useParams } from "react-router-dom";
 // import { API_URL } from "../../utils/consts";
 
-
-function EditAdvForm({ closeForm }) {
+function EditAdvForm({ adv, closeForm }) {
   // const params = useParams();
 
-  const hiddenFileInput = useRef();
+  const hiddenFileInput = useState();
 
   // const [adv, setAdv] = useState({images:[]});
   const [advImage, setAdvImage] = useState();
@@ -40,7 +39,7 @@ function EditAdvForm({ closeForm }) {
   return (
     <S.FormWrapper>
       <S.TitleWrapper>
-        <h2>Редактировать объявление</h2>
+        <h2>Редакт ировать объявление</h2>
         <CloseFormButton onClick={closeForm} />
       </S.TitleWrapper>
       <S.Form>
@@ -49,16 +48,21 @@ function EditAdvForm({ closeForm }) {
           <S.FormInputName
             name="adv-name"
             placeholder="Введите название"
+            defaultValue={adv.title}
             type="text"
-          >Название</S.FormInputName>
+          />
         </S.InputWrapper>
+
         <S.InputWrapper>
           <label htmlFor="adv-description">Описание</label>
           <S.FormInputDescription
             name="adv-description"
             placeholder="Введите описание"
-            type="text"> описание тут</S.FormInputDescription>
+            defaultValue={adv.description}
+            type="text"
+          />
         </S.InputWrapper>
+
         <S.InputWrapper>
           <label htmlFor="adv-photo">
             Фотографии товара <span>не более 5 фотографий</span>
@@ -82,7 +86,12 @@ function EditAdvForm({ closeForm }) {
         <S.InputWrapper>
           <label htmlFor="adv-price">Цена</label>
           <S.FormInputPriceWrapper>
-            <S.FormInputPrice name="adv-price" type="number">2 200</S.FormInputPrice>
+            <S.FormInputPrice
+              name="adv-price"
+              type="number"
+              placeholder="Введите цену"
+              defaultValue={adv.price}
+            ></S.FormInputPrice>
           </S.FormInputPriceWrapper>
         </S.InputWrapper>
         <div>

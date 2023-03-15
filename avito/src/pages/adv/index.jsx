@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { Overlay, StyledContainer } from "../../global-styles";
-import * as S from "./styles";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import testImg from "../../assets/static/test.jpg";
 import AdvReviews from "../../components/adv-reviews";
-import MainButton from "../../components/main-button";
 import EditAdvForm from "../../components/edit-adv-form";
+import MainButton from "../../components/main-button";
+import { Overlay, StyledContainer } from "../../global-styles";
+import { API_URL, PROFILE_ROUTE } from "../../utils/consts";
 import { get } from "../../utils/fetch";
-import { useParams } from "react-router-dom";
-import { API_URL, SIGNUP_ROUTE } from "../../utils/consts";
+import * as S from "./styles";
 
 function AdvPage() {
   const isUserAdv = true;
@@ -75,7 +75,7 @@ function AdvPage() {
             <S.SellerInfo>
               <S.SellerAvatar src={testImg} alt="seller avatar" />
               <div>
-                <S.SellerName to={`${SIGNUP_ROUTE}`}>{adv?.user?.name}</S.SellerName>
+                <S.SellerName to={`${PROFILE_ROUTE}/${adv?.user?.id}`}>{adv?.user?.name}</S.SellerName>
                 <S.SellerActivity>
                   Продает товары с октября 2003
                 </S.SellerActivity>
@@ -90,14 +90,14 @@ function AdvPage() {
       </StyledContainer>
       {visibleReviews && (
         <>
-          <AdvReviews closeForm={() => setVisibleReviews(false)} />
+          <AdvReviews adv={adv} closeForm={() => setVisibleReviews(false)} />
           <Overlay />
         </>
       )}
 
       {visibleEditAdvForm && (
         <>
-          <EditAdvForm closeForm={() => setVisibleEditAdvForm(false)} />
+          <EditAdvForm adv={adv} closeForm={() => setVisibleEditAdvForm(false)} />
           <Overlay />
         </>
       )}

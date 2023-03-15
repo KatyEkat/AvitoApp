@@ -2,6 +2,8 @@ export const SIGNUP_ROUTE = "/signup";
 export const LOGIN_ROUTE = "/login";
 export const HOME_ROUTE = "/";
 export const PROFILE_ROUTE = "/profile";
+export const PROFILE_PERSONAL_ROUTE = "/profile-personal";
+
 export const ADV_ROUTE = "/adv";
 
 const size = {
