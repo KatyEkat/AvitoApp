@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import MainButton from "../main-button";
 import * as S from "./styles";
-// import mockAvatarMen from "../assets/static/mockAvatarMen.jpg";
-// import mockAvatarWomen from '../../assets/static/mockAvatarWomen.jpg';
+import mockAvatarMen from "../../assets/static/mockAvatarMen.jpg";
+import { patch } from "../../utils/fetch";
 
-function ProfileDataForm() {
+function ProfileDataForm({ user, setUser }) {
   const formRef = useRef();
   const hiddenFileInput = useRef();
   const avatarRef = useRef();
@@ -14,8 +14,6 @@ function ProfileDataForm() {
   const phoneRef = useRef();
 
   const [avatarSrc, setAvatarSrc] = useState(null);
-
-  const [focused, setFocuesd] = useState();
 
   const handleClick = () => {
     hiddenFileInput.current.click();
@@ -27,20 +25,37 @@ function ProfileDataForm() {
     setAvatarSrc(obj);
   };
 
-  const handleSubmit = () => {};
+  // const handleSubmit = () => {};
 
-  useEffect(() => {
-    formRef.current.reset();
-  }, []);
+  // useEffect(() => {
+  //   formRef.current.reset();
+  // }, []);
+
+  const onChangeUser = (name) => (event) => {
+    setUser({ ...user, [name]: event.target.value });
+  };
+
+  const onUpdateProfile = async () => {
+    await patch(
+      "/user",
+      {
+        name: user.name,
+        surname: user.surname,
+        city: user.city,
+        phone: user.phone,
+      },
+      true
+    );
+  };
 
   return (
-    <S.DataForm onSubmit={handleSubmit} ref={formRef}>
+    <div>
       <S.AvatarWrapper>
-        {/* <S.Avatar
+        <S.Avatar
           src={avatarSrc || mockAvatarMen}
           alt="profile avatar"
           ref={avatarRef}
-        /> */}
+        />
         <S.ChangeAvatarBtn type="button" onClick={handleClick}>
           Заменить
         </S.ChangeAvatarBtn>
@@ -59,11 +74,13 @@ function ProfileDataForm() {
               Имя
             </S.DataFormLabel>
             <S.DataFormInput
-              defaultValue="Укажите имя"
+              placeholder="Имя"
               type="text"
               name="first-name"
               onFocus={() => nameRef.current.focus()}
               onBlur={() => nameRef.current.blur()}
+              value={user?.name}
+              onChange={onChangeUser("name")}
             />
           </S.InputWrapper>
           <S.InputWrapper>
@@ -71,11 +88,13 @@ function ProfileDataForm() {
               Фамилия
             </S.DataFormLabel>
             <S.DataFormInput
-              defaultValue="Укажите фамилию"
+              placeholder="Фамилия"
               type="text"
               name="last-name"
               onFocus={() => surnameRef.current.focus()}
               onBlur={() => surnameRef.current.blur()}
+              value={user?.surname}
+              onChange={onChangeUser("surname")}
             />
           </S.InputWrapper>
         </S.InputsNameBlock>
@@ -85,11 +104,13 @@ function ProfileDataForm() {
             Город
           </S.DataFormLabel>
           <S.DataFormInput
-            defaultValue="Санкт-Петербург"
+            placeholder="Город"
             type="text"
             name="city"
             onFocus={() => cityRef.current.focus()}
             onBlur={() => cityRef.current.blur()}
+            value={user?.city}
+            onChange={onChangeUser("city")}
           />
         </S.InputWrapper>
         <S.InputWrapper>
@@ -97,20 +118,22 @@ function ProfileDataForm() {
             Телефон
           </S.DataFormLabel>
           <S.DataFormInput
-            defaultValue="89123456677"
+            placeholder="8999*******"
             type="tel"
             name="phone"
             onFocus={() => phoneRef.current.focus()}
             onBlur={() => phoneRef.current.blur()}
             onMouseEnter={() => phoneRef.current.focus()}
             onMouseLeave={() => phoneRef.current.blur()}
+            value={user?.phone}
+            onChange={onChangeUser("phone")}
           />
         </S.InputWrapper>
         <div>
-          <MainButton type="submit">Сохранить</MainButton>
+          <MainButton onClick={onUpdateProfile}>Сохранить</MainButton>
         </div>
       </S.TextData>
-    </S.DataForm>
+    </div>
   );
 }
 

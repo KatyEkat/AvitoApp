@@ -4,7 +4,11 @@ import * as S from "./styles";
 import HeaderButton from "./header-button";
 import { StyledContainer, Overlay } from "../../global-styles";
 import CreateAdvForm from "../create-adv-form";
-// import Auth from '../../pages/auth/index';
+import {
+  LOGIN_ROUTE,
+  PROFILE_PERSONAL_ROUTE,
+  SIGNUP_ROUTE,
+} from "../../utils/consts";
 
 function Header({ isAuth }) {
   const [visibleAddAdv, setVisibleAddAdv] = useState();
@@ -17,12 +21,12 @@ function Header({ isAuth }) {
               <HeaderButton onClick={() => setVisibleAddAdv(true)}>
                 Разместить объявление
               </HeaderButton>
-              <Link to="/profile/1">
+              <Link to={PROFILE_PERSONAL_ROUTE}>
                 <HeaderButton>Личиный кабинет</HeaderButton>
               </Link>
             </S.HeaderAuthButtons>
           ) : (
-            <Link to="/profile/1">
+            <Link to={`${LOGIN_ROUTE}`}>
               <HeaderButton>Вход в личный кабинет</HeaderButton>
             </Link>
           )}

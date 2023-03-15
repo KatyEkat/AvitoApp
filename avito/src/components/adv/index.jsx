@@ -20,6 +20,8 @@ function Adv({ adv }) {
       <S.AdvPrice>{adv.price}</S.AdvPrice>
       <S.AdvLocation>{adv.user.city}</S.AdvLocation>
       <S.AdvDataRelease>{adv.created_on}</S.AdvDataRelease>
+      {/* ддата нормальная не работает хз почему */}
+      {/* {new Date (adv.created_on).toLacaleDateString()} */}
     </S.Adv>
   );
 }
