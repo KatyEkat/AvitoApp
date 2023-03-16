@@ -1,7 +1,7 @@
 import { API_URL, ACCESS_TOKEN, REFRESH_TOKEN } from "./consts";
 import { parseJwt } from "./Jwt";
 
-const getAccessToken = async () => {
+export const getAccessToken = async () => {
   const token = localStorage.getItem(ACCESS_TOKEN);
   const refresh = localStorage.getItem(REFRESH_TOKEN);
 

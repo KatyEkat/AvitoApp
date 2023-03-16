@@ -49,7 +49,7 @@ function ProfileDataForm({ user, setUser }) {
   };
 
   return (
-    <div>
+    <S.DataForm>
       <S.AvatarWrapper>
         <S.Avatar
           src={avatarSrc || mockAvatarMen}
@@ -133,7 +133,7 @@ function ProfileDataForm({ user, setUser }) {
           <MainButton onClick={onUpdateProfile}>Сохранить</MainButton>
         </div>
       </S.TextData>
-    </div>
+    </S.DataForm>
   );
 }
 

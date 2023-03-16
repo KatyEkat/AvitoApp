@@ -13,18 +13,25 @@ function AdvPage() {
   const isUserAdv = true;
   const params = useParams();
 
-  const [adv, setAdv] = useState({images:[]});
+  const [adv, setAdv] = useState({ images: [] });
+  const [comments, setComments] = useState([]);
   const [activeImg, setActiveImg] = useState(0);
   const [visibleReviews, setVisibleReviews] = useState(false);
   const [visibleEditAdvForm, setVisibleEditAdvForm] = useState(false);
 
   useEffect(() => {
     getAdv();
+    getAdComments();
   }, []);
 
   const getAdv = async () => {
     const { json } = await get(`/ads/${params.id}`);
     setAdv(json);
+  };
+
+  const getAdComments = async () => {
+    const { json } = await get(`/ads/${params.id}/comments`);
+    setComments(json);
   };
 
   return (
@@ -52,7 +59,7 @@ function AdvPage() {
             <S.AdvDataRelease>{adv.created_on}</S.AdvDataRelease>
             <S.AdvLocation>{adv?.user?.city}</S.AdvLocation>
             <S.AdvReviews onClick={() => setVisibleReviews(true)}>
-              23 отзыва
+              {comments.length} отзыва
             </S.AdvReviews>
             <S.AdvPrice>{adv.price}</S.AdvPrice>
             {isUserAdv ? (
@@ -75,7 +82,9 @@ function AdvPage() {
             <S.SellerInfo>
               <S.SellerAvatar src={testImg} alt="seller avatar" />
               <div>
-                <S.SellerName to={`${PROFILE_ROUTE}/${adv?.user?.id}`}>{adv?.user?.name}</S.SellerName>
+                <S.SellerName to={`${PROFILE_ROUTE}/${adv?.user?.id}`}>
+                  {adv?.user?.name}
+                </S.SellerName>
                 <S.SellerActivity>
                   Продает товары с октября 2003
                 </S.SellerActivity>
@@ -90,14 +99,22 @@ function AdvPage() {
       </StyledContainer>
       {visibleReviews && (
         <>
-          <AdvReviews adv={adv} closeForm={() => setVisibleReviews(false)} />
+          <AdvReviews
+            adId={adv.id}
+            comments={comments}
+            setComments={setComments}
+            closeForm={() => setVisibleReviews(false)}
+          />
           <Overlay />
         </>
       )}
 
       {visibleEditAdvForm && (
         <>
-          <EditAdvForm adv={adv} closeForm={() => setVisibleEditAdvForm(false)} />
+          <EditAdvForm
+            adv={adv}
+            closeForm={() => setVisibleEditAdvForm(false)}
+          />
           <Overlay />
         </>
       )}

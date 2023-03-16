@@ -19,7 +19,7 @@ export const TitleWrapper = styled.div`
   align-items: center;
 `;
 
-export const Form = styled.form`
+export const Form = styled.div`
   display: flex;
   flex-direction: column;
   row-gap: 20px;

@@ -7,7 +7,6 @@ import { isAuthTokenExists } from "./utils/fetch";
 
 function App() {
   const isAuth = isAuthTokenExists();
-  console.log(isAuth);
 
   return (
     <>

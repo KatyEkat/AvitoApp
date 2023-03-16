@@ -1,10 +1,20 @@
-import React from 'react';
-import * as S from './styles';
-import MainButton from '../main-button';
-import testImg from '../../assets/static/test.jpg';
-import CloseFormButton from '../close-form-button';
+import React, { useState } from "react";
+import testImg from "../../assets/static/test.jpg";
+import { isAuthTokenExists, post } from "../../utils/fetch";
+import CloseFormButton from "../close-form-button";
+import MainButton from "../main-button";
+import * as S from "./styles";
 
-function AdvReviews({ closeForm }) {
+function AdvReviews({ closeForm, adId, comments, setComments }) {
+  const isAuth = isAuthTokenExists();
+  const [text, setText] = useState("");
+
+  const createAdComment = async () => {
+    const { json } = await post(`/ads/${adId}/comments`, { text }, true);
+    setText("");
+    setComments([json, ...comments]);
+  };
+
   return (
     <S.ReviewsBlock>
       <S.ReviewTitleWrapper>
@@ -13,30 +23,36 @@ function AdvReviews({ closeForm }) {
       </S.ReviewTitleWrapper>
       <S.OverflowBlock>
         <S.Subtitle>Добавить отзыв</S.Subtitle>
-        <S.ReviewSendForm>
-          <S.ReviewSendFormInput type="text" placeholder="Введите отзыв" />
+        <S.ReviewSendContainer>
+          <S.ReviewSendFormInput
+            value={text}
+            onChange={(event) => setText(event.target.value)}
+            type="text"
+            placeholder="Введите отзыв"
+          />
           <div>
-            <MainButton active={false} type="submit">
+            <MainButton
+              active={Boolean(isAuth && text.length > 0)}
+              onClick={createAdComment}
+            >
               Опубликовать
             </MainButton>
           </div>
-        </S.ReviewSendForm>
+        </S.ReviewSendContainer>
         <S.ReviewsList>
-          {Array.from({ length: 5 }, (_v, k) => (
-            <S.Review key={k}>
+          {comments.map((comment) => (
+            <S.Review key={comment.id}>
               <S.ReviewerAvatar src={testImg} alt="user avatar" />
               <div>
                 <S.ReviewerInfo>
-                  <S.ReviewerName>Олег</S.ReviewerName>
-                  <S.ReviewDateRelease>14 августа</S.ReviewDateRelease>
+                  <S.ReviewerName>{comment.author.name}</S.ReviewerName>
+                  <S.ReviewDateRelease>
+                    {comment.created_on}
+                  </S.ReviewDateRelease>
                 </S.ReviewerInfo>
                 <S.ReviewerCommentBlock>
                   <S.ReviewerCommentTitle>Комментарий</S.ReviewerCommentTitle>
-                  <S.ReviewCommentText>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua.
-                  </S.ReviewCommentText>
+                  <S.ReviewCommentText>{comment.text}</S.ReviewCommentText>
                 </S.ReviewerCommentBlock>
               </div>
             </S.Review>

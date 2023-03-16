@@ -31,7 +31,7 @@ export const Subtitle = styled.h3`
   margin-bottom: 14px;
 `;
 
-export const ReviewSendForm = styled.form`
+export const ReviewSendContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 30px;
