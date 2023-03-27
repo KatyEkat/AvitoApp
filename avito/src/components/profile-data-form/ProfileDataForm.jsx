@@ -1,11 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
-import MainButton from "../main-button";
-import * as S from "./styles";
+import React, { useRef, useState } from "react";
 import mockAvatarMen from "../../assets/static/mockAvatarMen.jpg";
 import { patch } from "../../utils/fetch";
+import MainButton from "../main-button";
+import * as S from "./styles";
+import UpdatePasswordForm from "./UpdatePasswordForm";
+
 
 function ProfileDataForm({ user, setUser }) {
-  const formRef = useRef();
   const hiddenFileInput = useRef();
   const avatarRef = useRef();
   const nameRef = useRef();
@@ -23,13 +24,8 @@ function ProfileDataForm({ user, setUser }) {
     const fileUploaded = hiddenFileInput.current.files[0];
     const obj = URL.createObjectURL(fileUploaded);
     setAvatarSrc(obj);
+    // setUser({...user, avatar: obj});
   };
-
-  // const handleSubmit = () => {};
-
-  // useEffect(() => {
-  //   formRef.current.reset();
-  // }, []);
 
   const onChangeUser = (name) => (event) => {
     setUser({ ...user, [name]: event.target.value });
@@ -39,6 +35,7 @@ function ProfileDataForm({ user, setUser }) {
     await patch(
       "/user",
       {
+        // avatar: user.avatar,
         name: user.name,
         surname: user.surname,
         city: user.city,
@@ -132,6 +129,9 @@ function ProfileDataForm({ user, setUser }) {
         <div>
           <MainButton onClick={onUpdateProfile}>Сохранить</MainButton>
         </div>
+
+        <UpdatePasswordForm />
+
       </S.TextData>
     </S.DataForm>
   );

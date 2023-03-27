@@ -1,10 +1,9 @@
 import { API_URL } from "../consts";
 import { getAccessToken } from "../fetch";
 
-export const createAd = async ({ price, title, description, files }) => {
-  const query = new URLSearchParams({ price, title, description });
+export const uploadImage = async ({ file, adId }) => {
   const formData = new FormData();
-  formData.append("files", files);
+  formData.append("file", file);
 
   const token = await getAccessToken();
   const init = {
@@ -13,10 +12,8 @@ export const createAd = async ({ price, title, description, files }) => {
     body: formData,
   };
 
-  const response = await fetch(`${API_URL}/ads?${query.toString()}`, init);
+  const response = await fetch(`${API_URL}/ads/${adId}/image`, init);
   const json = await response.json();
 
-  return {
-    json,
-  };
+  return json;
 };

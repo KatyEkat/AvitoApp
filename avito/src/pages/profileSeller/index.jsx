@@ -3,16 +3,22 @@ import { useParams } from "react-router-dom";
 import { StyledContainer } from "../../global-styles";
 import { API_URL } from "../../utils/consts";
 import { get } from "../../utils/fetch";
+import { maskPhoneNumber } from "../../utils/phone";
 import * as S from "../profilePersonal/styles";
 
 function Profile() {
   const [user, setUser] = useState({ name: "" });
+  const [isPhoneHidden, setIsPhoneHidden] = useState(true);
 
   const params = useParams();
 
   useEffect(() => {
     getAllUsers();
   }, []);
+
+  const onShowPhone = () => {
+    setIsPhoneHidden(false);
+  };
 
   const getAllUsers = async () => {
     const { json } = await get("/user/all");
@@ -38,9 +44,13 @@ function Profile() {
               <p>{user?.name}</p>
               <p>{user?.city}</p>
               <p>{user?.sells_from}</p>
-              <S.PhoneButton>
+              <S.PhoneButton onClick={onShowPhone}>
                 Показать телефон
-                <span>{user?.phone}</span>
+                <span>
+                  {isPhoneHidden
+                    ? maskPhoneNumber(user?.phone || "")
+                    : user?.phone}
+                </span>
               </S.PhoneButton>
             </div>
           </S.SellerInfoBlock>

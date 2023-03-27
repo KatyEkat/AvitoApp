@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import testImg from "../../assets/static/test.jpg";
 import AdvReviews from "../../components/adv-reviews";
 import EditAdvForm from "../../components/edit-adv-form";
 import MainButton from "../../components/main-button";
 import { Overlay, StyledContainer } from "../../global-styles";
-import { API_URL, PROFILE_ROUTE } from "../../utils/consts";
-import { get } from "../../utils/fetch";
+import { API_URL, HOME_ROUTE, PROFILE_ROUTE } from "../../utils/consts";
+import { get, remove } from "../../utils/fetch";
 import * as S from "./styles";
 
 function AdvPage() {
   const isUserAdv = true;
   const params = useParams();
+  const navigate = useNavigate();
 
   const [adv, setAdv] = useState({ images: [] });
   const [comments, setComments] = useState([]);
@@ -32,6 +33,11 @@ function AdvPage() {
   const getAdComments = async () => {
     const { json } = await get(`/ads/${params.id}/comments`);
     setComments(json);
+  };
+
+  const deleteAd = async () => {
+    await remove(`/ads/${params.id}`, {}, true);
+    navigate(HOME_ROUTE);
   };
 
   return (
@@ -55,8 +61,9 @@ function AdvPage() {
             </S.AdvImagesList>
           </S.AdvImagesBlock>
           <div>
-            <S.AdvTitle>{adv.title}</S.AdvTitle>
-            <S.AdvDataRelease>{adv.created_on}</S.AdvDataRelease>
+            <S.AdvTitle>{adv?.title}</S.AdvTitle>
+            <S.AdvDataRelease>{new Date (adv.created_on).toLocaleDateString()}</S.AdvDataRelease>
+            
             <S.AdvLocation>{adv?.user?.city}</S.AdvLocation>
             <S.AdvReviews onClick={() => setVisibleReviews(true)}>
               {comments.length} отзыва
@@ -70,12 +77,14 @@ function AdvPage() {
                 >
                   Редактировать
                 </MainButton>
-                <MainButton type="button">Снять с публикации</MainButton>
+                <MainButton type="button" onClick={deleteAd}>
+                  Снять с публикации
+                </MainButton>
               </S.AdvSettingsButtons>
             ) : (
               <S.PhoneButton>
                 Показать телефон
-                <span>8 905 ХХХ ХХ ХХ</span>
+                {/* <span>8 905 ХХХ ХХ ХХ</span> */}
               </S.PhoneButton>
             )}
 
@@ -113,6 +122,7 @@ function AdvPage() {
         <>
           <EditAdvForm
             adv={adv}
+            setAdv={setAdv}
             closeForm={() => setVisibleEditAdvForm(false)}
           />
           <Overlay />

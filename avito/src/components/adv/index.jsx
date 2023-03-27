@@ -14,14 +14,13 @@ function Adv({ adv }) {
         <S.AdvImage src={advImg ? `${API_URL}/` + advImg : testImg} alt="img" />
       </Link>
       <Link to={`${ADV_ROUTE}/${adv.id}`}>
-        <S.AdvTitle>{adv.title}</S.AdvTitle>
+        <S.AdvTitle>{adv?.title}</S.AdvTitle>
       </Link>
 
       <S.AdvPrice>{adv.price}</S.AdvPrice>
       <S.AdvLocation>{adv.user.city}</S.AdvLocation>
-      <S.AdvDataRelease>{adv.created_on}</S.AdvDataRelease>
-      {/* ддата нормальная не работает хз почему */}
-      {/* {new Date (adv.created_on).toLacaleDateString()} */}
+      <S.AdvDataRelease>{new Date (adv.created_on).toLocaleDateString()}</S.AdvDataRelease>
+      
     </S.Adv>
   );
 }
