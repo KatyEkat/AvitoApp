@@ -1,18 +1,16 @@
-import React, { useState, useRef, useEffect } from "react";
-import * as S from "./styles";
-import CloseFormButton from "../close-form-button";
+import React, { useState } from "react";
 import plug from "../../assets/static/add_adv_photo_plug.jpg";
+import { patch } from "../../utils/fetch";
+import CloseFormButton from "../close-form-button";
 import MainButton from "../main-button";
-// import { patch } from '../../utils/fetch';
-// import { useParams } from "react-router-dom";
-// import { API_URL } from "../../utils/consts";
+import * as S from "./styles";
 
-function EditAdvForm({ adv, closeForm }) {
-  // const params = useParams();
-
+function EditAdvForm({ adv, closeForm, setAdv }) {
+  const [files, setFiles] = useState([]);
+  const [price, setPrice] = useState(adv.price);
+  const [title, setTitle] = useState(adv.title);
+  const [description, setDescription] = useState(adv.description);
   const hiddenFileInput = useState();
-
-  // const [adv, setAdv] = useState({images:[]});
   const [advImage, setAdvImage] = useState();
 
   const handleClick = (e) => {
@@ -27,19 +25,24 @@ function EditAdvForm({ adv, closeForm }) {
     setAdvImage(obj);
   };
 
-  // useEffect(() => {
-  //   patchAdv();
-  // }, []);
-
-  // const patchAdv = async () => {
-  //   const { json } = await patch(`/ads/${params.id}`);
-  //   patchAdv(json);
-  // };
+  const onAdUpdate = async () => {
+    const { json, error } = await patch(
+      `/ads/${adv.id}`,
+      {
+        price,
+        title,
+        description,
+      },
+      true
+    );
+    setAdv(json);
+    !error && closeForm();
+  };
 
   return (
     <S.FormWrapper>
       <S.TitleWrapper>
-        <h2>Редакт ировать объявление</h2>
+        <h2>Редактировать объявление</h2>
         <CloseFormButton onClick={closeForm} />
       </S.TitleWrapper>
       <S.Form>
@@ -48,7 +51,8 @@ function EditAdvForm({ adv, closeForm }) {
           <S.FormInputName
             name="adv-name"
             placeholder="Введите название"
-            defaultValue={adv.title}
+            value={title}
+            onChange={(event) => setTitle(event.target.value)}
             type="text"
           />
         </S.InputWrapper>
@@ -58,7 +62,8 @@ function EditAdvForm({ adv, closeForm }) {
           <S.FormInputDescription
             name="adv-description"
             placeholder="Введите описание"
-            defaultValue={adv.description}
+            value={description}
+            onChange={(event) => setDescription(event.target.value)}
             type="text"
           />
         </S.InputWrapper>
@@ -90,12 +95,15 @@ function EditAdvForm({ adv, closeForm }) {
               name="adv-price"
               type="number"
               placeholder="Введите цену"
-              defaultValue={adv.price}
+              value={price}
+              onChange={(event) => setPrice(event.target.value)}
             ></S.FormInputPrice>
           </S.FormInputPriceWrapper>
         </S.InputWrapper>
         <div>
-          <MainButton active={false}>Сохранить</MainButton>
+          <MainButton active={true} onClick={onAdUpdate}>
+            Сохранить
+          </MainButton>
         </div>
       </S.Form>
     </S.FormWrapper>

@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const FormWrapper = styled.div`
   position: absolute;
@@ -19,7 +19,7 @@ export const TitleWrapper = styled.div`
   align-items: center;
 `;
 
-export const Form = styled.form`
+export const Form = styled.div`
   display: flex;
   flex-direction: column;
   row-gap: 20px;
@@ -53,7 +53,7 @@ export const FormInputPriceWrapper = styled.div`
   position: relative;
 
   ::after {
-    content: '₽';
+    content: "₽";
     position: absolute;
     right: 20px;
     top: 50%;

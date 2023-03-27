@@ -1,7 +1,7 @@
 import { API_URL, ACCESS_TOKEN, REFRESH_TOKEN } from "./consts";
 import { parseJwt } from "./Jwt";
 
-const getAccessToken = async () => {
+export const getAccessToken = async () => {
   const token = localStorage.getItem(ACCESS_TOKEN);
   const refresh = localStorage.getItem(REFRESH_TOKEN);
 
@@ -65,6 +65,7 @@ const client = async (
 
   const headers = withAuth
     ? { "Content-Type": "application/json", Authorization: `Bearer ${token}` }
+    // || { "Content-Type" : "multipart/form-data"}
     : { "Content-Type": "application/json" };
 
   const config = {
@@ -113,6 +114,12 @@ export const patch = async (
   withAuth = false,
   customConfig = {}
 ) => await client(endpoint, "PATCH", body, withAuth, customConfig);
+export const put = async (
+  endpoint,
+  body = {},
+  withAuth = false,
+  customConfig = {}
+) => await client(endpoint, "PUT", body, withAuth, customConfig);
 export const remove = async (
   endpoint,
   body = {},

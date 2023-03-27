@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import ProfileDataForm from "../../components/profile-data-form";
+import ProfileDataForm from "../../components/profile-data-form/ProfileDataForm";
 import { StyledContainer } from "../../global-styles";
 import { get } from "../../utils/fetch";
 import * as S from "./styles";
